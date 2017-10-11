@@ -1,0 +1,4 @@
+python-twitter
+minio
+Pillow
+tweepy

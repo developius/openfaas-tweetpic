@@ -1,0 +1,11 @@
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  tweetpic:
+    lang: Dockerfile
+    handler: ./tweetpic
+    image: developius/openfaas-tweetpic
+    environment_file:
+      - credentials.yml
