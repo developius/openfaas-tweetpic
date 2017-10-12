@@ -5,7 +5,7 @@ provider:
 functions:
   tweetpic:
     lang: Dockerfile
-    handler: ./tweetpic
+    handler: .
     image: developius/openfaas-tweetpic
     environment_file:
       - credentials.yml

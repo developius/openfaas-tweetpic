@@ -41,10 +41,9 @@ def handle(data):
             scaled_filename = filename.split('.')[0] + '_scaled.jpg'
             im.save(scaled_filename, "JPEG")
             image = open(filename.split('.')[0] + '_scaled.jpg', 'rb')
-
         status = api.PostUpdate("Hey, here's your colored image!",
             media=image,
             auto_populate_reply_metadata=True,
             in_reply_to_status_id=in_reply_to_status_id)
-        return status
+        print(status)
         image.close()
