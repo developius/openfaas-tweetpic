@@ -26,6 +26,7 @@ api = twitter.Api(
 def handle(req):
     filename = tempfile.gettempdir() + '/' + str(int(round(time.time() * 1000))) + '.jpg'
     in_reply_to_status_id = req['status_id']
+    duration = req['duration']
 
     with nostdout():
         minioClient.fget_object('colorization', req['image'], filename)
@@ -41,7 +42,7 @@ def handle(req):
             im.save(scaled_filename, "JPEG")
             image = open(filename.split('.')[0] + '_scaled.jpg', 'rb')
 
-        status = api.PostUpdate("Hey, here's your colored image!",
+        status = api.PostUpdate("I colorized your image using #openfaas in %.1f seconds" % duration,
             media=image,
             auto_populate_reply_metadata=True,
             in_reply_to_status_id=in_reply_to_status_id)
