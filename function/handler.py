@@ -23,13 +23,12 @@ api = twitter.Api(
     access_token_secret=os.environ['access_token_secret']
 )
 
-def handle(data):
-    data = json.loads(data)
+def handle(req):
     filename = tempfile.gettempdir() + '/' + str(int(round(time.time() * 1000))) + '.jpg'
-    in_reply_to_status_id = data['status_id']
+    in_reply_to_status_id = req['status_id']
 
     with nostdout():
-        minioClient.fget_object('colorization', data['image'], filename)
+        minioClient.fget_object('colorization', req['image'], filename)
 
     with open(filename, 'rb') as image:
         size = os.fstat(image.fileno()).st_size
@@ -46,5 +45,8 @@ def handle(data):
             media=image,
             auto_populate_reply_metadata=True,
             in_reply_to_status_id=in_reply_to_status_id)
-        return status
         image.close()
+        return {
+            "reply_to": in_reply_to_status_id,
+            "status_id": status.id
+        }

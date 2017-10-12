@@ -1,7 +1,7 @@
 # Copyright (c) Alex Ellis 2017. All rights reserved.
 # Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import sys
+import sys, json
 from function import handler
 
 def get_stdin():
@@ -12,4 +12,6 @@ def get_stdin():
 
 if(__name__ == "__main__"):
     st = get_stdin()
-    handler.handle(st)
+    req = json.loads(st)
+    res = handler.handle(req)
+    print("Replied to %i" % res['status_id'])
