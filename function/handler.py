@@ -33,16 +33,15 @@ def handle(req):
 
     with open(filename, 'rb') as image:
         size = os.fstat(image.fileno()).st_size
+        im = Image.open(filename)
         if size > 5 * 1048576:
             maxsize = (1028, 1028)
-            im = Image.open(filename)
             im.thumbnail(maxsize, Image.ANTIALIAS)
-            im = im.convert("RGB")
-            scaled_filename = filename.split('.')[0] + '_scaled.jpg'
-            im.save(scaled_filename, "JPEG")
-            image = open(filename.split('.')[0] + '_scaled.jpg', 'rb')
+        im = im.convert("RGB")
+        im.save(filename, "JPEG")
+        image = open(filename, 'rb')
 
-        status = api.PostUpdate("I colorized your image using #openfaas in %.1f seconds" % duration,
+        status = api.PostUpdate("I colorized your image using #openfaas in %.1f seconds #dockercon" % duration,
             media=image,
             auto_populate_reply_metadata=True,
             in_reply_to_status_id=in_reply_to_status_id)
